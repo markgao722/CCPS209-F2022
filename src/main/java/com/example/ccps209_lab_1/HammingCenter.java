@@ -7,7 +7,7 @@ public class HammingCenter {
         those arrays. r is a parameter set by the function caller.
         For the set of arrays a={0,0}, b={1,1}, the Hamming Center can be either {0,1} or {1,0}. Recall 1 = True.
             Notice r = 1 in this case, as the array {0,1} differs from the a, b by at most 1.
-        hrs: 0
+        hrs: 3
      */
 
     /**
@@ -31,11 +31,15 @@ public class HammingCenter {
         while (k < aSize) {
             hamCenter[k]  = findCenter(bits, distances, hamCenter, k, r);
 
-            int maxDist = Arrays.sort(distances)[0]; //why can't this see distances from the outer scope??
+            // There must be a less verbose way of this helper variable...
+            int[] dCopy = Arrays.copyOf(distances, distances.length);
+            Arrays.sort(dCopy, 0, dCopy.length);
+            int maxDist = dCopy[dCopy.length-1];
 
             if (maxDist > r) {
                 return null;
-                    // instructions say to put this in helper method...how will we know if false = no solution?
+                    // UNRESOVLED >>> instructions say to put this in helper method...
+                        // how will we know if false = no solution?
             } else {
                 k++;
             }
@@ -60,8 +64,9 @@ public class HammingCenter {
         int[] trueDistances = Arrays.copyOf(distance, distance.length);
 
         for (int i = 0; i < bits.length; i++) {
+            // Assume we first try center[k] as False; if bits[i][k] is True, +1 distance
             if (bits[i][k]) {
-                falseDistances[i]++;  // assume center[k] is False; if bits[i][k] is True, +1 distance
+                falseDistances[i]++;
             } else {
                 trueDistances[i]++;
             }
