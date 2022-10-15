@@ -3,7 +3,7 @@ import java.util.List;
 
 public class P2J4 {
     /* Summary: Practice using a variety of List operations on a list of integers.
-        hrs: 0
+        hrs: 1
      */
 
     /**
@@ -22,7 +22,10 @@ public class P2J4 {
      * @return Return the first (smallest) positive integer missing from items
      */
     public static int firstMissingPositive(List<Integer> items) {
+        // Pigeonhole principle: first missing positive of a list of size n must be less than or equal n+1
+        // Use a boolean array of size n+1 to track which numbers have been seen
 
+        // Use 2 consecutive, rather than nested, for loops
     }
 
     /**
@@ -33,10 +36,22 @@ public class P2J4 {
      * @param items An unsorted list of integers
      */
     public static void sortByElementFrequency(List<Integer> items) {
+        // Use a Map<Integer, Integer> to count how many times each value appears
 
+        // Create a subclass implementing Comparator<Integer> whose .compare() consults the map
     }
 
+    /**
+     * Return a list of prime factors of n!. This list should be sorted in ascending order, and each prime factor
+     * should appear as many times as needed to equal n!.
+     * @param n An integer whose factorial will be n!
+     * @return Return a sorted list of prime factors
+     */
     public static List<Integer> factorFactorial(int n) {
+        // Build list of prime factors while counting up to n instead of computing n! outright
 
+        // Append to result list
+
+        // Sort the result list
     }
 }
