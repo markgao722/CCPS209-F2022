@@ -1,5 +1,7 @@
 package com.example.ccps209_lab_1;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 public class P2J4 {
     /* Summary: Practice using a variety of List operations on a list of integers.
@@ -13,7 +15,28 @@ public class P2J4 {
      * @return Return a list of integers representing medians
      */
     public static List<Integer> runningMedianOfThree(List<Integer> items) {
+        List<Integer> result = new ArrayList<Integer>();
+        result.add(items.get(0));
+        result.add(items.get(1));
 
+        for (int pos = 2; pos < items.size(); pos++) {
+            int a = result.get(pos - 2);
+            int b = result.get(pos - 1);
+            int c = items.get(pos);
+            int d = calcMedian(a, b, c);
+
+            result.add(d);
+        }
+        return result;
+    }
+
+    // Custom helper to avoid clutter
+    private static int calcMedian(int a, int b, int c) {
+        int median;
+        A numbers = Arrays.asList(a, b, c);
+
+        // array-backed list methods...?
+        return median;
     }
 
     /**
