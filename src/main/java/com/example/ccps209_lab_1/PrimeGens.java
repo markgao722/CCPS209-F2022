@@ -3,6 +3,8 @@ import java.util.Iterator;
 
 public class PrimeGens {
     /* Summary:
+
+        Requires the methods isPrime and kthPrime from the Primes lab.
         hrs: 0
      */
 
