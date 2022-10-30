@@ -33,7 +33,7 @@ public class P2J4 {
     // Custom helper to avoid clutter
     private static int calcMedian(int a, int b, int c) {
         int median;
-        A numbers = Arrays.asList(a, b, c);
+        List<E> numbers = Arrays.asList(a, b, c);
 
         // array-backed list methods...?
         return median;

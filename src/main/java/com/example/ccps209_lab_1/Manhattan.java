@@ -34,5 +34,6 @@ public class Manhattan {
         // Keep track of all the buildings in "active view", which helps with double counting
         Set<Integer> active = new HashSet<>();
 
+        return 0;
     }
 }

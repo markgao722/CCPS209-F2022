@@ -1,10 +1,12 @@
 package com.example.ccps209_lab_1;
 
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.Random;
 import java.util.zip.CRC32;
+
+import static org.junit.Assert.assertEquals;
 
 public class ManhattanTest {
 
@@ -45,8 +47,3 @@ public class ManhattanTest {
         assertEquals(2174298203L, check.getValue());
     }
 }
-Footer
-        © 2022 GitHub, Inc.
-        Footer navigation
-        Terms
-        Privacy

@@ -19,6 +19,6 @@ public class DiamondSequence implements Iterator<Integer> {
      * @return
      */
     public Integer next() {
-
+        return null;
     }
 }

@@ -51,15 +51,15 @@ public class Primes {
             hrs: 0
          */
 
-        public static class TwinPrimes implements Iterator<Integer> {
+        public class TwinPrimes implements Iterator<Integer> {
 
         }
 
-        public static class SafePrimes implements Iterator<Integer> {
+        public class SafePrimes implements Iterator<Integer> {
 
         }
 
-        public static class StrongPrimes implements Iterator<Integer> {
+        public class StrongPrimes implements Iterator<Integer> {
 
         }
 
