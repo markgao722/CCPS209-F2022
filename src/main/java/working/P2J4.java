@@ -1,11 +1,13 @@
 package working;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.HashMap;
 import java.lang.Math;
 
 public class P2J4 {
     /* Summary: Practice using a variety of List operations on a list of integers.
-        hrs: 2
+        hrs: 5
      */
 
     /**
@@ -43,11 +45,24 @@ public class P2J4 {
      * @return Return the first (smallest) positive integer missing from items
      */
     public static int firstMissingPositive(List<Integer> items) {
-        // Pigeonhole principle: first missing positive of a list of size n must be less than or equal n+1
-        // Use a boolean array of size n+1 to track which numbers have been seen
+        // Pigeonhole principle: smallest positive integer missing from list of n is n+1
+        int n = items.size();
+        Boolean[] seen = new Boolean[n];  // default is false
 
-        // Use 2 consecutive, rather than nested, for loops
-        return 0;
+        // Track which integers have been seen using boolean array
+        for (int i=0; i < n; i++) {
+            int num = items.get(i);
+
+            if (num <= n + 1) { seen[num - 1] = true; }
+        }
+
+        // Find the first false value in tracker array
+        int result = 0;
+        for (int j=0; j < n+1; j++) {
+            if (seen[j] = false) { result = j + 1; }
+        }
+
+        return result;
     }
 
     /**
@@ -59,22 +74,53 @@ public class P2J4 {
      */
     public static void sortByElementFrequency(List<Integer> items) {
         // Use a Map<Integer, Integer> to count how many times each value appears
+        HashMap<Integer, Integer> freq = new HashMap<>();
+        for(int k: items) {
+            if (freq.containsKey(k)) {
+                freq.put(k, freq.get(k) + 1);
+            } else {
+                freq.put(k, 1);
+            }
+        }
 
         // Create a subclass implementing Comparator<Integer> whose .compare() consults the map
+        class FreqSorter implements Comparator<Integer> {
+
+            @Override
+            public int compare(Integer a, Integer b) {
+                int first = a;
+                if (freq.get(a) < freq.get(b)) { first = b; }
+                else if (freq.get(a) == freq.get(b) && b < a) { first = b; }
+
+                return first;
+            }
+        }
+
+        // Sort in-place
+        FreqSorter customComparator = new FreqSorter();
+        items.sort(customComparator);
     }
 
     /**
-     * Return a list of prime factors of n!. This list should be sorted in ascending order, and each prime factor
-     * should appear as many times as needed to equal n!.
+     * Return a list of prime factors of n!. This list should be sorted in ascending order, and
+     * each prime factor should appear as many times as needed to equal n!.
      * @param n An integer whose factorial will be n!
      * @return Return a sorted list of prime factors
      */
     public static List<Integer> factorFactorial(int n) {
         // Build list of prime factors while counting up to n instead of computing n! outright
+        ArrayList<Integer> factors = new ArrayList<>();
 
-        // Append to result list
+        for(int m=n; m > 1; m--) {
+            for(int i=2; i < m; i++) {
+                while(m % i == 0) {
+                    factors.add(i);
+                    m = m / i;
+                }
+            }
+        }
 
-        // Sort the result list
-        return null;
+        factors.sort(Comparator.naturalOrder());
+        return factors;
     }
 }
