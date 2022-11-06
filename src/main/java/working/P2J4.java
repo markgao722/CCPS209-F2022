@@ -1,11 +1,11 @@
-package com.example.ccps209_lab_1;
+package working;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
+import java.lang.Math;
 
 public class P2J4 {
     /* Summary: Practice using a variety of List operations on a list of integers.
-        hrs: 1
+        hrs: 2
      */
 
     /**
@@ -15,7 +15,7 @@ public class P2J4 {
      * @return Return a list of integers representing medians
      */
     public static List<Integer> runningMedianOfThree(List<Integer> items) {
-        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> result = new ArrayList<>();
         result.add(items.get(0));
         result.add(items.get(1));
 
@@ -33,9 +33,7 @@ public class P2J4 {
     // Custom helper to avoid clutter
     private static int calcMedian(int a, int b, int c) {
         int median;
-        List<E> numbers = Arrays.asList(a, b, c);
-
-        // array-backed list methods...?
+        median = Math.max(Math.min(a,b), Math.min(Math.max(a,b),c));
         return median;
     }
 
@@ -49,6 +47,7 @@ public class P2J4 {
         // Use a boolean array of size n+1 to track which numbers have been seen
 
         // Use 2 consecutive, rather than nested, for loops
+        return 0;
     }
 
     /**
@@ -76,5 +75,6 @@ public class P2J4 {
         // Append to result list
 
         // Sort the result list
+        return null;
     }
 }

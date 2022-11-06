@@ -10,15 +10,35 @@ public class PrimeGens {
 
 
     public static class TwinPrimes implements Iterator<Integer> {
+        private int a = 3;
 
+        public boolean hasNext() { return true; }
+
+        public Integer next() {
+            return a;
+        }
+
+        // public void remove() has default behaviour
     }
 
     public static class SafePrimes implements Iterator<Integer> {
+        private int a = 5;
 
+        public boolean hasNext() { return true; }
+
+        public Integer next() {
+            return a;
+        }
     }
 
     public static class StrongPrimes implements Iterator<Integer> {
+        private int a = 11;
 
+        public boolean hasNext() { return true; }
+
+        public Integer next() {
+            return a;
+        }
     }
 
     // Example classes

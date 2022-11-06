@@ -1,4 +1,4 @@
-package com.example.ccps209_lab_1;
+package workingB;
 import java.util.Arrays;
 import java.lang.Math;
 

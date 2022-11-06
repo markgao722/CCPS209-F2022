@@ -1,8 +1,7 @@
 package com.example.ccps209_lab_1;
+
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class Primes {
     /* Summary: A variety of basic operations to work with prime numbers.
@@ -17,6 +16,7 @@ public class Primes {
     public static boolean isPrime(int n) {
         // Trial division: if n has a non-prime factor, one of them must be <= sqrt(n), so
         //  there's no need to check for factors greater than sqrt(n).
+        return false;
     }
 
     /**
@@ -25,7 +25,7 @@ public class Primes {
      * @return The k-th prime number
      */
     public static int kthPrime(int k) {
-
+        return 0;
     }
 
     /**
@@ -35,7 +35,7 @@ public class Primes {
      * @return Returns a list of integer prime factors
      */
     public static List<Integer> factorize(int n) {
-
+        return null;
     }
 
     // Use a private instance of ArrayList<Integer> to store already discovered primes, sorted ascending.
@@ -52,15 +52,35 @@ public class Primes {
          */
 
         public class TwinPrimes implements Iterator<Integer> {
+            private int a = 3;
 
+            public boolean hasNext() { return true; }
+
+            public Integer next() {
+                return a;
+            }
+
+            // public void remove() has default behaviour
         }
 
         public class SafePrimes implements Iterator<Integer> {
+            private int a = 5;
 
+            public boolean hasNext() { return true; }
+
+            public Integer next() {
+                return a;
+            }
         }
 
         public class StrongPrimes implements Iterator<Integer> {
+            private int a = 11;
 
+            public boolean hasNext() { return true; }
+
+            public Integer next() {
+                return a;
+            }
         }
 
     // Example classes
