@@ -1,9 +1,11 @@
-package com.example.ccps209_lab_1;
+package FirstDraft;
 
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+
 import java.util.Random;
 import java.util.zip.CRC32;
+
+import static org.junit.Assert.assertEquals;
 
 // Just to get to use the most exotic of all the Java speficier keywords.
 
