@@ -18,12 +18,14 @@ public class P2J4 {
      */
     public static List<Integer> runningMedianOfThree(List<Integer> items) {
         List<Integer> result = new ArrayList<>();
+
+        //<!!!> should be able to count the number of elements in a general list... build loop conditional on that
         result.add(items.get(0));
         result.add(items.get(1));
 
         for (int pos = 2; pos < items.size(); pos++) {
-            int a = result.get(pos - 2);
-            int b = result.get(pos - 1);
+            int a = items.get(pos - 2);
+            int b = items.get(pos - 1);
             int c = items.get(pos);
             int d = calcMedian(a, b, c);
 

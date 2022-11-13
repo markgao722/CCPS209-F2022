@@ -1,4 +1,4 @@
-package FirstDraft;
+package Tested;
 
 import org.junit.Test;
 

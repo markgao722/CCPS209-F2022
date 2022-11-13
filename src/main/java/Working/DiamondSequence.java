@@ -14,7 +14,7 @@ public class DiamondSequence implements Iterator<Integer> {
 
     public boolean hasNext() { return true; }
 
-    private Long k = 1L; //the sequence generated thus far
+    private Long k = 0L; //the sequence generated thus far
     private Long sum = 0L;  // sum of the sequence generated thus far
     private final NatSet seen = new NatSet();  // integers seen so far in the sequence generated thus far
     // [0,1,2,3,4,5,6,7,...]
