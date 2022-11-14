@@ -1,4 +1,4 @@
-package FirstDraft;
+package Tested;
 
 import  org.junit.Test;
 import java.util.ArrayList;
@@ -156,6 +156,7 @@ public class P2J4Test {
             List<Integer> ans = P2J4.factorFactorial(n);
             check.update(ans.size());
             if(n < expected.size()) {
+                System.out.println(n);
                 assertEquals(expected.get(n), ans);
             }
             for(int e: ans) { check.update(e); }

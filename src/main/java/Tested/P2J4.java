@@ -1,13 +1,10 @@
-package FirstDraft;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.HashMap;
-import java.lang.Math;
+package Tested;
+
+import java.util.*;
 
 public class P2J4 {
     /* Summary: Practice using a variety of List operations on a list of integers.
-        hrs: 5
+        hrs: 7
      */
 
     /**
@@ -19,17 +16,16 @@ public class P2J4 {
     public static List<Integer> runningMedianOfThree(List<Integer> items) {
         List<Integer> result = new ArrayList<>();
 
-        //<!!!> should be able to count the number of elements in a general list... build loop conditional on that
-        result.add(items.get(0));
-        result.add(items.get(1));
-
-        for (int pos = 2; pos < items.size(); pos++) {
-            int a = items.get(pos - 2);
-            int b = items.get(pos - 1);
-            int c = items.get(pos);
-            int d = calcMedian(a, b, c);
-
-            result.add(d);
+        for (int pos = 0; pos < items.size(); pos++) {
+            if (pos < 2) {
+                result.add(items.get(pos));
+            } else {
+                int a = items.get(pos - 2);
+                int b = items.get(pos - 1);
+                int c = items.get(pos);
+                int d = calcMedian(a, b, c);
+                result.add(d);
+            }
         }
         return result;
     }
@@ -49,22 +45,21 @@ public class P2J4 {
     public static int firstMissingPositive(List<Integer> items) {
         // Pigeonhole principle: smallest positive integer missing from list of n is n+1
         int n = items.size();
-        Boolean[] seen = new Boolean[n];  // default is false
+        boolean[] seen = new boolean[n + 1];  // default is false
 
         // Track which integers have been seen using boolean array
-        for (int i=0; i < n; i++) {
-            int num = items.get(i);
-
-            if (num <= n + 1) { seen[num - 1] = true; }
+        for (int num: items) {
+            if(num <= n + 1) {
+                seen[num - 1] = true;
+            }
         }
 
         // Find the first false value in tracker array
-        int result = 0;
-        for (int j=0; j < n+1; j++) {
-            if (seen[j] = false) { result = j + 1; }
+        for (int j=0; j < n + 1; j++) {
+            if (!seen[j]) { return j + 1; }
         }
 
-        return result;
+        return n + 1;
     }
 
     /**
@@ -90,11 +85,13 @@ public class P2J4 {
 
             @Override
             public int compare(Integer a, Integer b) {
-                int first = a;
-                if (freq.get(a) < freq.get(b)) { first = b; }
-                else if (freq.get(a) == freq.get(b) && b < a) { first = b; }
+                int result = 0;
+                if (freq.get(a) < freq.get(b)) { result = 1; } else
+                if (freq.get(a) > freq.get(b)) { result = -1; } else
+                if (freq.get(a).equals(freq.get(b)) && a < b) { result = -1; } else
+                if (freq.get(a).equals(freq.get(b)) && a > b) { result = 1; }
 
-                return first;
+                return result;
             }
         }
 
@@ -110,14 +107,29 @@ public class P2J4 {
      * @return Return a sorted list of prime factors
      */
     public static List<Integer> factorFactorial(int n) {
-        // Build list of prime factors while counting up to n instead of computing n! outright
         ArrayList<Integer> factors = new ArrayList<>();
+        if (n < 2) { return factors; }  // are we supposed to return empty array for ans of 1?
 
-        for(int m=n; m > 1; m--) {
-            for(int i=2; i < m; i++) {
-                while(m % i == 0) {
+        // Build list of prime factors while counting up to n instead of computing n! outright
+        for(int m = 2; m <= n; m++) {
+                //can't share m in the various steps below
+            System.out.println("Trying m= " + m);
+
+            int tmp = m;
+
+            // 2 factors
+            while(tmp % 2 == 0) {
+                factors.add(2);
+                tmp = tmp / 2;
+                System.out.println("Added 2, now m= " + tmp);
+            }
+
+            // odd factors
+            for(int i=3; i <= tmp ; i += 2) {
+                while(tmp % i == 0) {
                     factors.add(i);
-                    m = m / i;
+                    tmp = tmp / i;
+                    System.out.println("Added " + i + ", now m=" + tmp);
                 }
             }
         }
