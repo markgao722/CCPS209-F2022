@@ -27,6 +27,7 @@ public class P2J15 {
         x_idx = a.length / 2;  // assume all inputs' length = size
         right = a.length;
 
+        // binary search
         while (left < right) {
             if (a[x_idx] < x) {
                 left = x_idx;
@@ -35,7 +36,7 @@ public class P2J15 {
             } else {
                 break; // x was in the middle
             }
-            x_idx = (right - left) / 2;
+            x_idx = (right - left - 1) / 2;
         }
 
         // k closest elements
