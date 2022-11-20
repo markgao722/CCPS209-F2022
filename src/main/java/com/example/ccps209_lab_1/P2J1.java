@@ -1,4 +1,4 @@
-package temporary;
+package com.example.ccps209_lab_1;
 
 public class P2J1 {
     /* Summary: A sampling of integer and array operations to practice Java syntax

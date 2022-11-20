@@ -19,7 +19,7 @@ public class NatSet {
     // Inside the data array, every position < pos contains the value true.
     private int pos = 0;
     // We might as well allow the outside code become aware of this fact.
-    public long allTrueUpTo() { return start + pos; }
+    public long allTrueUpTo() {return start + pos; }
 
     public NatSet() {
         data = new boolean[PAGE];
@@ -53,6 +53,7 @@ public class NatSet {
                 pos = 0;
             }
         }
+
         // No else needed here, since adding an element < (start + pos) changes nothing.
     }
 

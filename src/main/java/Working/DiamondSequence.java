@@ -9,34 +9,37 @@ public class DiamondSequence implements Iterator<Integer> {
         The next element a(k) = the smallest new positive integer such that the first k elements of the
             sequence sum to an integer multiple of k.
         Example: [1,3,2,6,8,4,11,5,14,16,7,19,21,9,...]
-        hrs: 2
+        hrs: 4
      */
 
     public boolean hasNext() { return true; }
 
     private Long k = 0L; //the sequence generated thus far
     private Long sum = 0L;  // sum of the sequence generated thus far
-    private final NatSet seen = new NatSet();  // integers seen so far in the sequence generated thus far
-    // [0,1,2,3,4,5,6,7,...]
-    // [T,T,T,F,F,F,F,F,...]
+    private NatSet seen = new NatSet();  // integers seen so far in the sequence generated thus far
+        // [0,1,2,3,4,5,6,7,8,...]
+        // [T,T,F,F,F,F,F,F,F,...]
+
+    // Constructor helps ensure the 1 index actually represents the number 1
+    public DiamondSequence() { this.seen.add(0); }
 
     /**
      * Returns the next integer in the Diamond Sequence (see definition). Each instance is a new sequence.
      * @return Returns the next integer in the sequence
      */
     public Integer next() {
-        //Q1 is conversion to Integer last minute ok?
-        //Q2 do we represent number 1 in the zero idx position?
-        long testVal;
+        // check for smallest unseen integer I, if it satisfies sum+I % k == 0 use it, if not, keep looking
+        long smallestInt;
         this.k++;
 
-        // check for smallest unseen integer I, if it satisfies sum+I % k == 0 use it, if not, keep looking
-        testVal = seen.allTrueUpTo() + 1L;
-        while(this.sum + testVal % this.k != 0) {
-            testVal += 1;
+        smallestInt = this.seen.allTrueUpTo(); // Note: method allTrueUpTo gives idx of next FALSE position
+
+        while((this.sum + smallestInt) % this.k != 0) {  // is this method too slow to pass 1,000,000 k....??
+            smallestInt += 1L;
         }
-        sum += testVal;
-        seen.add(testVal);
-        return toIntExact(testVal);
+
+        this.sum += smallestInt;
+        this.seen.add(smallestInt);
+        return toIntExact(smallestInt);
     }
 }
