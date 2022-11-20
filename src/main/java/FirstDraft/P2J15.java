@@ -2,6 +2,9 @@ package FirstDraft;
 
 import java.util.Arrays;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 public class P2J15 {
     /* Summary: the generalized two-pointers method is a while loop that increments an array index i, and decrements
         an array index j, until either the target value is found or the indices pass each other indicating no solution.
@@ -19,7 +22,6 @@ public class P2J15 {
      * @return Return the array of k (integer) elements closest to x, sorted ascending
      */
     public static int[] findClosestElements(int[] a, int x, int k) {
-        // binary search
         int x_idx;
         int left;
         int right;
@@ -38,39 +40,48 @@ public class P2J15 {
             }
             x_idx = (right - left - 1) / 2;
         }
-        System.out.println(x_idx);
 
         // k closest elements
-        int[] result = new int[k];  // [0,1,2,3,...k]
-        int i = 0;  // steps away from x_idx being observed
-        int p = 0; // idx of next free spot in results
+        int[] result = new int[k];  // result array [0,1,2,3,...k]
+        int p = 0;  // tracker for next available position in result
 
-        if (k > 0) { result[p] = a[x_idx]; p++; i++; }
-        System.out.println(Arrays.toString(result));
+        // prepare an array of distances from x
+        int[] differences = new int[a.length];
+        for(int h = 0; h < differences.length; h++) {
+            differences[h] = Math.abs(x - a[h]);
+        }
 
-        int left_idx = Math.max(x_idx - 1, 0);
-        int right_idx = Math.min(x_idx + 1, a.length-1);
-        while (p  < k) {
-            int left_value = a[left_idx];
-            int right_value = a[right_idx];
+        // loop through distances until result array is full
+        Integer i = x_idx;  // distances on left side of x
+        Integer j = x_idx;  // distances on right side of x
+        while(p < k) {
+            i = max(i-1, 0);
+            j = min(i+1, a.length);
 
-            int preferred_value;
-            if(Math.abs(left_value - a[x_idx]) < Math.abs(right_value - a[x_idx])) {
-                preferred_value = left_value;
-                left_idx = Math.max(left_idx--, 0);  // condition this to be "not usable" after zero
-            } else if (Math.abs(left_value - a[x_idx]) > Math.abs(right_value - a[x_idx])) {
-                preferred_value = right_value;
-                right_idx = Math.min(right_value + 1, a.length-1);  // condition this to be "not usable after max
-            } else {
-                preferred_value = Math.min(left_value, right_value);
-                if(left_value < right_value) { left_idx = Math.max(left_idx--, 0); }
-                else { right_idx = Math.min(right_value + 1, a.length-1); }
+            int e; // value to add in this iteration
+            if(differences[i] < differences[j]) {
+                e = differences[i];
+                i = max(i - 1, 0);
+            } else if(differences[i] > differences[j]) {
+                e = differences[j];
+                j = min(j + 1, a.length);
+            } else if(i == null) {
+                e = differences[j];
+                j = min(j + 1, a.length);
+            } else if(j == null) {
+                e = differences[i];
+                i = max(j - 1, 0);
+            } else {  // differences[i] tie differences[j]; prefer the smaller value a[i], a[j]
+                if(a[i] < a[j]) {
+                    e = a[i];
+                    i = max(i - 1, 0);
+                } else {
+                    e = a[j];
+                    j = min(j + 1, a.length);
+                }
             }
-
-            result[p] = preferred_value;
+            result[p] = e;
             p++;
-
-            System.out.println(Arrays.toString(result));
         }
 
         Arrays.sort(result);
