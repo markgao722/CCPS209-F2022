@@ -7,7 +7,7 @@ public class P2J15 {
         an array index j, until either the target value is found or the indices pass each other indicating no solution.
         At each change in i/j value it should be 100% certain that a possible solution cannot be accidentally
         crossed (when moving in steps larger than 1).
-        hrs: 4
+        hrs: 6
      */
 
     /**
@@ -87,21 +87,21 @@ public class P2J15 {
      */
     public static int countSubarraysWithSum(int[] a, int sum) {
         int results = 0;
-        int i = 0;
-        int j = 0;
-        int sum_to_here;
-        while (j < a.length) {
-            // check the sub-array's sum
-            int[] slice = Arrays.copyOfRange(a, i, j);
-            sum_to_here = Arrays.stream(slice).sum();
+        int i;
+        int j;
 
-            if (sum_to_here < sum) { j++; }
-            else if (sum_to_here > sum) { i++; }
-            else {
-                j++;
-                results++;
+        for(i=0; i < a.length; i++) {
+            for (j=i; j < a.length; j++) {  // Not the most efficient start point for j but oh well
+                int[] slice = Arrays.copyOfRange(a, i, j+1);
+                int s = Arrays.stream(slice).sum();
+                System.out.println(s);
+                if (s == sum) { results++; }
             }
         }
+
+        // check the sub-array's sum
+        // int[] slice = Arrays.copyOfRange(a, i, j);
+        // sum_to_here = Arrays.stream(slice).sum();
 
         return results;
     }
