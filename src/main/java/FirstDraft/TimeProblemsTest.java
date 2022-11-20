@@ -1,4 +1,4 @@
-package com.example.ccps209_lab_1;
+package FirstDraft;
 
 import org.junit.Test;
 
@@ -16,6 +16,21 @@ public class TimeProblemsTest {
             0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
     };
 
+    @Test public void customFridays() {
+        Random rng = new Random(12345);
+        int y1 = 1900 + rng.nextInt(2000);
+        int y2 = y1 + rng.nextInt(999 + 3);
+        int m1 = rng.nextInt(12) + 1;
+        int m2 = rng.nextInt(12) + 1;
+        int d1 = rng.nextInt(100) < 20 ? 13 : rng.nextInt(daysInMonth[m1]) + 1;
+        int d2 = rng.nextInt(100) < 20 ? 13 : rng.nextInt(daysInMonth[m2]) + 1;
+        LocalDate startDate = LocalDate.of(y1, m1, d1);
+        LocalDate endDate = LocalDate.of(y2, m2, d2);
+        int result = TimeProblems.countFridayThirteens(startDate, endDate);
+
+        assertEquals(2411428835L, result);
+    }
+
     @Test public void testCountFridayThirteens() {
         Random rng = new Random(12345);
         CRC32 check = new CRC32();
@@ -32,10 +47,10 @@ public class TimeProblemsTest {
                 LocalDate tmp = startDate; startDate = endDate; endDate = tmp;
             }
             int result = TimeProblems.countFridayThirteens(startDate, endDate);
-            //System.out.println(startDate + " " + endDate + " " + result);
+            System.out.println(startDate + " " + endDate + " " + result);
             check.update(result);
         }
-        assertEquals(2411428835L, check.getValue());
+        assertEquals(2411428835L, check.getValue());  // result: 1761287115
     }
 
     @Test public void testDayAfterSeconds() {

@@ -1,11 +1,15 @@
-package com.example.ccps209_lab_1;
+package FirstDraft;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
+import static java.time.DayOfWeek.FRIDAY;
 
 public class TimeProblems {
-    /* Summary:
-        hrs: 0
+    /* Summary: Practice using the Java time package.
+        hrs: 3
      */
 
     /**
@@ -15,7 +19,23 @@ public class TimeProblems {
      * @return Return the number of times Friday 13th occurred
      */
     public static int countFridayThirteens(LocalDate start, LocalDate end) {
-        throw new UnsupportedOperationException();
+        int counter = 0;
+
+        // Find the first 13th
+        while(start.getDayOfMonth() != 13) {
+            start = start.plusDays(1L);
+        }
+        if(start.getDayOfWeek().equals(FRIDAY)) { counter++; }
+        start = start.plusMonths(1L);
+
+        // Find next month's 13th until end
+        while(start.isBefore(end)) {
+            //System.out.println(start + " is a: " + start.getDayOfWeek().toString() + ", counter: " + counter);
+            if(start.getDayOfWeek().equals(FRIDAY)) { counter++; }
+            start = start.plusMonths(1L);
+        }
+
+        return counter;
     }
 
     /**
@@ -27,13 +47,13 @@ public class TimeProblems {
      */
     public static String dayAfterSeconds(LocalDateTime timeHere, long
             seconds) {
-        // Make use of java.time.Duration.
-        throw new UnsupportedOperationException();
+        LocalDateTime newTime = timeHere.plusSeconds(seconds);
+        return newTime.getDayOfWeek().toString();
     }
 
     /**
      * Assuming the LocalDateTime object is in the "here" timezone, convert it to the equivalent
-     * date-time in the "there" timezone.
+     * date-time in the "there" timezone, and return the hour (24hr clock).
      * @param timeHere The LocalDateTime object to convert
      * @param here The timezone of timeHere
      * @param there The target timezone
@@ -41,7 +61,10 @@ public class TimeProblems {
      */
     public static int whatHourIsItThere(LocalDateTime timeHere, String
             here, String there) {
-        // Make use of ZoneDateTime and/or ZoneId.
-        throw new UnsupportedOperationException();
+        ZoneId zoneHere = ZoneId.of(here);
+        ZoneId zoneThere = ZoneId.of(there);
+        ZonedDateTime hereTime = timeHere.atZone(zoneHere);
+        ZonedDateTime thereTime = hereTime.withZoneSameInstant(zoneThere);
+        return thereTime.getHour();
     }
 }

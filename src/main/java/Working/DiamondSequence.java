@@ -1,6 +1,7 @@
 package Working;
 
 import java.util.Iterator;
+import java.util.HashMap;
 import static java.lang.Math.toIntExact;
 
 public class DiamondSequence implements Iterator<Integer> {
@@ -14,11 +15,13 @@ public class DiamondSequence implements Iterator<Integer> {
 
     public boolean hasNext() { return true; }
 
-    private Long k = 0L; //the sequence generated thus far
+    private int k = 0; //the sequence generated thus far
     private Long sum = 0L;  // sum of the sequence generated thus far
     private NatSet seen = new NatSet();  // integers seen so far in the sequence generated thus far
         // [0,1,2,3,4,5,6,7,8,...]
-        // [T,T,F,F,F,F,F,F,F,...]
+        // [T,T,T,T,F,F,T,F,F,...]
+    private HashMap<Integer,Integer> positions = new HashMap();  // NatSet number: k-position
+        // [0,1,3,2,6,8,4,11,5,...]
 
     // Constructor helps ensure the 1 index actually represents the number 1
     public DiamondSequence() { this.seen.add(0); }
@@ -28,18 +31,26 @@ public class DiamondSequence implements Iterator<Integer> {
      * @return Returns the next integer in the sequence
      */
     public Integer next() {
-        // check for smallest unseen integer I, if it satisfies sum+I % k == 0 use it, if not, keep looking
+        // Check for smallest unseen integer I, if it satisfies sum+I % k == 0 use it, if not, keep looking
         long smallestInt;
         this.k++;
 
-        smallestInt = this.seen.allTrueUpTo(); // Note: method allTrueUpTo gives idx of next FALSE position
+        // Check for self-reference, otherwise search through all integers starting from lowest
+        if(this.seen.contains(k)) {
+            smallestInt = this.positions.get(k);
+        } else {
+            smallestInt = this.seen.allTrueUpTo(); // Note: method allTrueUpTo gives idx of next FALSE position
 
-        while((this.sum + smallestInt) % this.k != 0) {  // is this method too slow to pass 1,000,000 k....??
-            smallestInt += 1L;
+            while((this.sum + smallestInt) % this.k != 0) {  // 1M k = 8 minutes
+                smallestInt += 1L;
+            }
         }
 
         this.sum += smallestInt;
         this.seen.add(smallestInt);
+        System.out.println("k: " + this.k + " value: " + smallestInt);
+
+        positions.put(toIntExact(smallestInt), k);
         return toIntExact(smallestInt);
     }
 }
