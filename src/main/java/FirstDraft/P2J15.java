@@ -1,6 +1,6 @@
 package FirstDraft;
+
 import java.util.Arrays;
-import java.lang.Math;
 
 public class P2J15 {
     /* Summary: the generalized two-pointers method is a while loop that increments an array index i, and decrements
@@ -38,24 +38,43 @@ public class P2J15 {
             }
             x_idx = (right - left - 1) / 2;
         }
+        System.out.println(x_idx);
 
         // k closest elements
-        int[] result = new int[k];
-        int i = 0;  // i+1 is the number of elements currently stored in the result array
-        while (i + 1 < k) {
-            int left_item = a[x_idx - 1];
-            int right_item = a[x_idx + 1];
-            if (k - result.length < 2) {
-                result[i] = Math.min(left_item, right);
+        int[] result = new int[k];  // [0,1,2,3,...k]
+        int i = 0;  // steps away from x_idx being observed
+        int p = 0; // idx of next free spot in results
+
+        if (k > 0) { result[p] = a[x_idx]; p++; i++; }
+        System.out.println(Arrays.toString(result));
+
+        int left_idx = Math.max(x_idx - 1, 0);
+        int right_idx = Math.min(x_idx + 1, a.length-1);
+        while (p  < k) {
+            int left_value = a[left_idx];
+            int right_value = a[right_idx];
+
+            int preferred_value;
+            if(Math.abs(left_value - a[x_idx]) < Math.abs(right_value - a[x_idx])) {
+                preferred_value = left_value;
+                left_idx = Math.max(left_idx--, 0);  // condition this to be "not usable" after zero
+            } else if (Math.abs(left_value - a[x_idx]) > Math.abs(right_value - a[x_idx])) {
+                preferred_value = right_value;
+                right_idx = Math.min(right_value + 1, a.length-1);  // condition this to be "not usable after max
             } else {
-                result[i] = left_item;
-                result[i + 1] = right_item;
-                i++;
+                preferred_value = Math.min(left_value, right_value);
+                if(left_value < right_value) { left_idx = Math.max(left_idx--, 0); }
+                else { right_idx = Math.min(right_value + 1, a.length-1); }
             }
-            i++;
+
+            result[p] = preferred_value;
+            p++;
+
+            System.out.println(Arrays.toString(result));
         }
 
         Arrays.sort(result);
+        System.out.println(Arrays.toString(result));
         return result;
     }
 

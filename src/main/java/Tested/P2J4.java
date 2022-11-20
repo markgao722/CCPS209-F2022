@@ -112,16 +112,12 @@ public class P2J4 {
 
         // Build list of prime factors while counting up to n instead of computing n! outright
         for(int m = 2; m <= n; m++) {
-                //can't share m in the various steps below
-            System.out.println("Trying m= " + m);
-
             int tmp = m;
 
             // 2 factors
             while(tmp % 2 == 0) {
                 factors.add(2);
                 tmp = tmp / 2;
-                System.out.println("Added 2, now m= " + tmp);
             }
 
             // odd factors
@@ -129,7 +125,6 @@ public class P2J4 {
                 while(tmp % i == 0) {
                     factors.add(i);
                     tmp = tmp / i;
-                    System.out.println("Added " + i + ", now m=" + tmp);
                 }
             }
         }
