@@ -1,4 +1,4 @@
-package com.example.ccps209_lab_1;
+package Tested;
 
 import java.util.Arrays;
 
@@ -90,11 +90,36 @@ public class P2J1 {
      * @return Return the number of i,j pairs (i.e. inversions)
      */
     public static int countInversions(int[] arr) {
+        if (arr.length < 2)
+            return 0;
+
+        int n = (arr.length + 1) / 2;
+        int leftArr[] = Arrays.copyOfRange(arr, 0, n);
+        int rightArr[] = Arrays.copyOfRange(arr, n, arr.length);
+
+        return countInversions(leftArr) + countInversions(rightArr) + merge(arr, leftArr, rightArr);
+    }
+
+    // HELPER
+    public static int merge(int[] arr, int[] left, int[] right) {
+        int i = 0;
+        int j = 0;
         int counter = 0;
-        for(int i=0; i < arr.length-1; i++) {
-            for(int j=i; j < arr.length; j++) {
-                System.out.println("Comparing " + arr[i] + " to " + arr[j]);
-                if(arr[i] > arr[j]) { counter++; }
+
+        while(i < left.length || j < right.length) {
+            if(i == left.length) {
+                arr[i+j] = right[j];
+                j++;
+            } else if(j == right.length) {
+                arr[i+j] = left[i];
+                i++;
+            } else if(left[i] <= right[j]) {
+                arr[i+j] = left[i];
+                i++;
+            } else {
+                arr[i+j] = right[j];
+                counter += left.length-i;
+                j++;
             }
         }
         return counter;

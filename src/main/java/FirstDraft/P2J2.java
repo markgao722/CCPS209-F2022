@@ -1,8 +1,13 @@
-package com.example.ccps209_lab_1;
+package FirstDraft;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Objects;
 
 public class P2J2 {
     /* Summary: A sampling of string and array operations to practice Java syntax.
-        hrs:
+        hrs: 1
      */
 
     /**
@@ -13,7 +18,19 @@ public class P2J2 {
      * @return Return the string with contiguous duplicates removed
      */
     public static String removeDuplicates(String text) {
-        throw new UnsupportedOperationException();
+        // Assumes no whitespace!
+        ArrayList<String> txt = new ArrayList<>(Arrays.asList(text.split("")));
+        String currentDub = txt.get(0);
+        String result = currentDub;
+
+        for(String c: txt) {
+
+            if(!Objects.equals(c, currentDub)) {
+                result = result + c;
+                currentDub = c;
+            }
+        }
+        return result;
     }
 
     /**
@@ -24,7 +41,17 @@ public class P2J2 {
      */
     public static String uniqueCharacters(String text) {
         // Try to use a HashSet<Character> instead of nested for loops.
-        throw new UnsupportedOperationException();
+        // Assumes no whitespace!
+        String result = "";
+        ArrayList<String> txt = new ArrayList<>(Arrays.asList(text.split("")));
+        HashSet<String> seen = new HashSet<>();
+        for(String c: txt) {
+            if(!seen.contains(c)) {
+                seen.add(c);
+                result = result + c;
+            }
+        }
+        return result;
     }
 
     /**
@@ -35,7 +62,17 @@ public class P2J2 {
      * @return Return the count of tiles that are "safe" from the rooks
      */
     public static int countSafeSquaresRooks(int n, boolean[][] rooks) {
-        throw new UnsupportedOperationException();
+        HashSet<Integer> safeRows = new HashSet<>();
+        HashSet<Integer> safeColumns = new HashSet<>();
+        for(int k = 1; k <= n; k++) { safeRows.add(k); safeColumns.add(k); }
+
+        // WARNING: row idx starts from 1!
+        for(int i = 1; i <= n; i++) {
+            for(int j = 1; j <= n; j++) {
+                if(rooks[i-1][j-1]) { safeRows.remove(i); safeColumns.remove(j); }
+            }
+        }
+        return safeRows.size() * safeColumns.size();
     }
 
     /**
@@ -48,6 +85,8 @@ public class P2J2 {
      */
     public static int recaman(int n) {
         // Use a boolean[] to keep track of seen integers, so you can access them in constant time.
-        throw new UnsupportedOperationException();
+        boolean[] seen = new boolean[10*n];
+        
+        return 0;
     }
 }
