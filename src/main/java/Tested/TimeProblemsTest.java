@@ -1,4 +1,4 @@
-package FirstDraft;
+package Tested;
 
 import org.junit.Test;
 
@@ -16,19 +16,39 @@ public class TimeProblemsTest {
             0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
     };
 
+    // >>> !!! CUSTOM TEST <<<
     @Test public void customFridays() {
-        Random rng = new Random(12345);
-        int y1 = 1900 + rng.nextInt(2000);
-        int y2 = y1 + rng.nextInt(999 + 3);
-        int m1 = rng.nextInt(12) + 1;
-        int m2 = rng.nextInt(12) + 1;
-        int d1 = rng.nextInt(100) < 20 ? 13 : rng.nextInt(daysInMonth[m1]) + 1;
-        int d2 = rng.nextInt(100) < 20 ? 13 : rng.nextInt(daysInMonth[m2]) + 1;
-        LocalDate startDate = LocalDate.of(y1, m1, d1);
-        LocalDate endDate = LocalDate.of(y2, m2, d2);
+        LocalDate startDate = LocalDate.of(1911, 1, 13);
+        LocalDate endDate = LocalDate.of(1929, 9, 13);
         int result = TimeProblems.countFridayThirteens(startDate, endDate);
+        int answer = TimeProblems.countFridayThirteensSecret(startDate, endDate);
+        assertEquals(answer, result);
+    }
 
-        assertEquals(2411428835L, result);
+    // >>> !!! CUSTOM TEST <<<
+    @Test public  void discrepanciesOnly() {
+        Random rng = new Random(12345);
+        for(int i = 0; i < 1000; i++) {
+            int y1 = 1900 + rng.nextInt(2000);
+            int y2 = y1 + rng.nextInt(i + 3);
+            int m1 = rng.nextInt(12) + 1;
+            int m2 = rng.nextInt(12) + 1;
+            int d1 = rng.nextInt(100) < 20 ? 13 : rng.nextInt(daysInMonth[m1]) + 1;
+            int d2 = rng.nextInt(100) < 20 ? 13 : rng.nextInt(daysInMonth[m2]) + 1;
+            LocalDate startDate = LocalDate.of(y1, m1, d1);
+            LocalDate endDate = LocalDate.of(y2, m2, d2);
+            if (startDate.compareTo(endDate) > 0) {
+                LocalDate tmp = startDate;
+                startDate = endDate;
+                endDate = tmp;
+            }
+            int result = TimeProblems.countFridayThirteens(startDate, endDate);
+            int answer = TimeProblems.countFridayThirteensSecret(startDate, endDate);
+
+            if (result != answer) {
+                System.out.println(i + " | Got: " + result + ", expected: " + answer + " for dates: " + startDate + "-" + endDate);
+            }
+        }
     }
 
     @Test public void testCountFridayThirteens() {
@@ -47,10 +67,9 @@ public class TimeProblemsTest {
                 LocalDate tmp = startDate; startDate = endDate; endDate = tmp;
             }
             int result = TimeProblems.countFridayThirteens(startDate, endDate);
-            System.out.println(startDate + " " + endDate + " " + result);
             check.update(result);
         }
-        assertEquals(2411428835L, check.getValue());  // result: 1761287115
+        assertEquals(2411428835L, check.getValue());
     }
 
     @Test public void testDayAfterSeconds() {

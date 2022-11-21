@@ -1,19 +1,17 @@
-package FirstDraft;
+package Tested;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 
 import static java.time.DayOfWeek.FRIDAY;
 
 public class TimeProblems {
     /* Summary: Practice using the Java time package.
-        hrs: 3
+        >>> Only have the first method left to do!
+        hrs: 4
      */
 
     /**
-     * Count the number of Friday 13th occurences between start and end dates, inclusive.
+     * Count the number of Friday 13th occurrences between start and end dates, inclusive.
      * @param start The start of the window to search in
      * @param end THe end of the window to search in
      * @return Return the number of times Friday 13th occurred
@@ -25,18 +23,37 @@ public class TimeProblems {
         while(start.getDayOfMonth() != 13) {
             start = start.plusDays(1L);
         }
-        if(start.getDayOfWeek().equals(FRIDAY)) { counter++; }
+        if(start.getDayOfWeek() == FRIDAY) { counter++;            System.out.println(start);}
         start = start.plusMonths(1L);
 
         // Find next month's 13th until end
-        while(start.isBefore(end)) {
-            //System.out.println(start + " is a: " + start.getDayOfWeek().toString() + ", counter: " + counter);
-            if(start.getDayOfWeek().equals(FRIDAY)) { counter++; }
+        while(start.isBefore(end) || start.isEqual(end)) {
+            if(start.getDayOfWeek() == FRIDAY) { counter++;             System.out.println(start);}
             start = start.plusMonths(1L);
         }
 
         return counter;
     }
+
+    // SECRET
+    public static int countFridayThirteensSecret(LocalDate startDate, LocalDate endDate) {
+        int currMonth = startDate.getMonthValue();
+        int currYear = startDate.getYear();
+        int endMonth = endDate.getMonthValue();
+        int endYear = endDate.getYear();
+        int count = 0;
+        while(currYear < endYear || (currYear == endYear && currMonth <= endMonth)) {
+            LocalDate currDate = LocalDate.of(currYear, currMonth, 13);
+            if(startDate.compareTo(currDate) <= 0 && currDate.compareTo(endDate) <= 0) {
+                if(currDate.getDayOfWeek() == DayOfWeek.FRIDAY) {
+                    count++;
+                }
+            }
+            if(++currMonth == 13) { currMonth = 1; currYear += 1; }
+        }
+        return count;
+    }
+
 
     /**
      * Calculate the day of the week (all-caps string) after however many seconds are added to the
