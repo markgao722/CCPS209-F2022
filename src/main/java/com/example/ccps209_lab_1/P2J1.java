@@ -1,5 +1,7 @@
 package com.example.ccps209_lab_1;
 
+import java.util.Arrays;
+
 public class P2J1 {
     /* Summary: A sampling of integer and array operations to practice Java syntax
         hrs: 1
@@ -15,7 +17,13 @@ public class P2J1 {
      */
     public static long fallingPower(int n, int k) {
         // must use longs rather than ints throughout otherwise silent memory overflow will occur!
-        return 0L;
+        long result = 1;
+        int m = n;
+        for (int i=k; i > 0; i--) {
+            result = result * m;
+            m--;
+        }
+        return result;
     }
 
     /**
@@ -24,8 +32,17 @@ public class P2J1 {
      * @return An array of elements whose indices were even in arr
      */
     public static int[] everyOther(int[] arr) {
-        //Note: what does question mean to have "no extra zeros hanging around at end of result array"?
-        return null;
+        int[] messyresult = new int[arr.length];
+        int r = 0;
+        for(int i=0; i < arr.length; i++) {
+            if(i % 2 == 0) {
+                messyresult[r] = arr[i];
+                r++;
+            }
+        }
+        //Note: question states "no extra zeros hanging around at end of result array"
+        int[] result = Arrays.copyOfRange(messyresult, 0, r);
+        return result;
     }
 
     /**
@@ -37,7 +54,32 @@ public class P2J1 {
      * @return Return a rows x cols matrix sorted per the instructions
      */
     public static int[][] createZigZag(int rows, int cols, int start){
-        return null;
+        int[][] result = new int[rows][cols];
+        int n = start;
+        for(int i=0; i < rows; i++) {
+            int[] rowArray = new int[cols];
+
+            for(int j=0; j < cols; j++) {
+                rowArray[j] = n;
+                n++;
+            }
+            result[i] = rowArray;
+        }
+
+        // Reverse the odd-numbered rows
+        for(int r=0; r < rows; r++) {
+            if (r % 2 != 0) {
+                int[] swapMe = result[r];
+
+                for(int k = 0; k < swapMe.length / 2; k++) {
+                    int temp = swapMe[k];
+                    swapMe[k] = swapMe[swapMe.length - k - 1];
+                    swapMe[swapMe.length - k - 1] = temp;
+                }
+                result[r] = swapMe;
+            }
+        }
+        return result;
     }
 
     /**
@@ -48,6 +90,13 @@ public class P2J1 {
      * @return Return the number of i,j pairs (i.e. inversions)
      */
     public static int countInversions(int[] arr) {
-        return 0;
+        int counter = 0;
+        for(int i=0; i < arr.length-1; i++) {
+            for(int j=i; j < arr.length; j++) {
+                System.out.println("Comparing " + arr[i] + " to " + arr[j]);
+                if(arr[i] > arr[j]) { counter++; }
+            }
+        }
+        return counter;
     }
 }
