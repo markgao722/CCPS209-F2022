@@ -1,4 +1,4 @@
-package FirstDraft;
+package Tested;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class P2J2 {
     /* Summary: A sampling of string and array operations to practice Java syntax.
-        hrs: 1
+        hrs: 2
      */
 
     /**
@@ -80,13 +80,30 @@ public class P2J2 {
      *  An = A_{n-1} - n if the new number is new and > 0.
      *  An = A_{n-1} + n if the number has been seen before.
      *  Example: for [A1,A2,A3,A4,A5,A6,A7,A8] the numbers are [1,3,6,2,7,13,20,12]
-     * @param n
-     * @return
+     * @param n The nth term of the sequence to get
+     * @return Return the value An
      */
     public static int recaman(int n) {
         // Use a boolean[] to keep track of seen integers, so you can access them in constant time.
         boolean[] seen = new boolean[10*n];
-        
-        return 0;
+        int lastTerm = 1;
+        int nthTerm = 1;
+
+        if(n==1) { return nthTerm; }
+        seen[1] = true;
+
+        for(int k=2; k <= n; k++) {
+            if(lastTerm - k > 0 && seen[lastTerm - k] != lastTerm - k > 0) {
+                nthTerm = lastTerm - k;
+                seen[lastTerm - k] = true;
+            } else {
+                nthTerm = lastTerm + k;
+                seen[lastTerm + k] = true;
+            }
+            lastTerm = nthTerm;
+            System.out.println("last: " + lastTerm + " n: " + nthTerm);
+        }
+        System.out.println("Answer - last: " + lastTerm + " n: " + nthTerm);
+        return nthTerm;
     }
 }
