@@ -25,7 +25,7 @@ public class Manhattan {
         List<Integer> events = new ArrayList<>();
 
         // Encode the k-th building entering view as -1-k, and exiting view as k-1
-        for(int k=1; k < s.length; k++) {
+        for(int k = 1; k < s.length; k++) {
             events.add(-1-k);  // buildings entering view 1: -2, 2: -3, 3: -4,...
             events.add(k-1);  // buildings exiting view 1: 0, 2: 1, 3: 2,...
         }
@@ -57,12 +57,23 @@ public class Manhattan {
         int area = 0;
 
         for(int ev: events) {
-            int k;  // recompute kth building number (redundant)
-            if(ev < 0) { k = -1 - ev; } else { k = ev + 1; }
-            int i = k - 1;  // idx in s, e, h for the kth building
+            if(ev < 0) {
+                // ENTER
+                int i = -1 - ev -1;  // kth building less 1 is the idx of that building in s,h
+                last_x = s[i];
 
-            active.add(k);
-            
+                // Check if this building taller than last unfinished building
+                if(h[i] < h[i+1]) {
+                    // STOP
+                } else {
+                    // KEEP ADDING
+                }
+            } else {
+                // EXIT
+                int i = ev;  // kth building less 1 is the idx of that building in e,h
+                int incrArea = last_x * e[i] * h[i];
+                area = area + incrArea;
+            }
         }
 
         return area;
