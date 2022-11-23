@@ -1,9 +1,6 @@
 package com.example.ccps209_lab_1;
 
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class Manhattan {
     /* Summary: A demonstration of an implementation of the "sweep line algorithm". Assume we're looking at a skyline
@@ -27,13 +24,47 @@ public class Manhattan {
         // In this case, events are when building x-coordinates enter/exit view
         List<Integer> events = new ArrayList<>();
 
-        // Let the k-th building entering view be -1-k, and exiting view be k-1
+        // Encode the k-th building entering view as -1-k, and exiting view as k-1
+        for(int k=1; k < s.length; k++) {
+            events.add(-1-k);  // buildings entering view 1: -2, 2: -3, 3: -4,...
+            events.add(k-1);  // buildings exiting view 1: 0, 2: 1, 3: 2,...
+        }
 
         // Sort with a Comparator<Integer> which sorts ascending, first by their s then by their e
+        class encodedSort implements Comparator<Integer> {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                int beginLeft = -1 - o1;
+                int exitLeft = o1 + 1;
+                int beginRight = -1 -o2;
+                int exitRight = o2 + 1;
+
+                if(beginLeft < beginRight) { return -1; }
+                else if(beginLeft > beginRight) { return 1; }
+                else {
+                    // are exact ties even allowed?? Only count active building.
+                    return Integer.compare(exitLeft, exitRight);
+                }
+            }
+        }
+        encodedSort sorter = new encodedSort();
+        events.sort(sorter);
 
         // Keep track of all the buildings in "active view", which helps with double counting
-        Set<Integer> active = new HashSet<>();
+        Set<Integer> active = new HashSet<>();  // should this contain k or s ??
+        int last_x = 0;
+        int area = 0;
 
-        return 0;
+        for(int ev: events) {
+            int k;  // recompute kth building number (redundant)
+            if(ev < 0) { k = -1 - ev; } else { k = ev + 1; }
+            int i = k - 1;  // idx in s, e, h for the kth building
+
+            active.add(k);
+            
+        }
+
+        return area;
     }
 }

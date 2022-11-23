@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 public class P2J8 {
     /* Summary: Two integer manipulation samples for practicing Java syntax.
-        hrs: 1
+        hrs: 2
      */
 
     /**
@@ -18,18 +18,34 @@ public class P2J8 {
     public static void hittingIntegerPowers(int a, int b, int t, int[] out) {
         int p1 = 1;
         int p2 = 1;
-        BigInteger ap = new BigInteger(String.valueOf(Math.pow(a, p1)));
-        BigInteger bp = new BigInteger(String.valueOf(Math.pow(b, p2)));
+        int iter = 1;
+        BigInteger ap = new BigInteger(String.valueOf((int) Math.pow(a, p1)));
+        BigInteger bp = new BigInteger(String.valueOf((int) Math.pow(b, p2)));
         BigInteger bigT = new BigInteger(String.valueOf(t));
         BigInteger diff = bigT.multiply(bp.subtract(ap)).abs();
 
         BigInteger bigA = new BigInteger(String.valueOf(a));
         BigInteger bigB = new BigInteger(String.valueOf(b));
-        while(diff.compareTo(ap.min(bp)) != -1) {  // difference must be SMALLER than the smaller number
-            ap = ap.multiply(bigA);
-            bp = bp.multiply(bigB);
-            p1++;
-            p2++;
+        System.out.println("Starting numbers: " + ap + "," + bp + ". Diff: " + diff);
+
+        // difference must be SMALLER than the smaller number
+        while(diff.compareTo(ap.min(bp)) != -1) {
+
+            // prefer to increment by a smaller number...higher chance of not overshooting solution
+            if(ap.multiply(bigA).compareTo(bp.multiply(bigB)) < 0) {
+                ap = ap.multiply(bigA);
+                p1++;
+            } else if(ap.multiply(bigA).compareTo(bp.multiply(bigB)) > 0) {
+                bp = bp.multiply(bigB);
+                p2++;
+            } else {
+                if(a < b) { ap = ap.multiply(bigA); p1++; }
+                else { bp = bp.multiply(bigB); p2++; }
+            }
+            diff = bigT.multiply(bp.subtract(ap)).abs();
+            iter++;
+            System.out.println("Iter-"+iter+", numbers: " +a+"^"+p1+"="+ap + ","+b+"^"+p2+"="+bp+ ". Diff:" + diff);
+
         }
 
         out[0] = p1;
