@@ -1,10 +1,6 @@
 package Working;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class P2J3 {
     /* Summary: Array and integer manipulations to be tested with a text file.
@@ -23,15 +19,16 @@ public class P2J3 {
 
             for (int j = i + 1; j < items.length; j++) {
                 if (items[j + 1] <= items[j]) {
-                    // Convert array to arraylist
-                    int[] subarray = Arrays.copyOfRange(items, i, j);
-                    IntStream subarraystream = Arrays.stream(subarray);
-                    ArrayList<Integer> subarraylist = (ArrayList<Integer>) subarraystream.boxed().collect(Collectors.toList());
+                    // Create reversed subarray
+                    int[] tmp = Arrays.copyOfRange(items, i, j + 1);
+                    int N = tmp.length;
+                    int[] rev = new int[N];
+                    for (int n = 0; n < N; n++) {
+                        rev[N - 1 - n] = tmp[n];
+                    }
 
-                    Collections.reverse(subarraylist);
-                    int[] newsubarray = subarraylist.toArray();
-
-
+                    // Put sub-array back in its place in items
+                    // >>>>> WORK HERE >>>>>
 
                     i = j + 1;
                     break;
@@ -49,7 +46,14 @@ public class P2J3 {
     public static String pancakeScramble(String text) {
         // Reverse a StringBuilder object as there is no .reverse() on str types
         // Convert back after reversing via str = new StringBuilder(str).reverse().toString();
-        throw new UnsupportedOperationException();
+        String result = text;
+
+        for (int i = 2; i <= text.length(); i++) {
+            StringBuilder s = new StringBuilder(i);
+
+        }
+
+        return result;
     }
 
     /**
