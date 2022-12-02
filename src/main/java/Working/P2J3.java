@@ -1,7 +1,5 @@
 package Working;
 
-import java.util.Arrays;
-
 public class P2J3 {
     /* Summary: Array and integer manipulations to be tested with a text file.
         hrs: 1
@@ -15,22 +13,22 @@ public class P2J3 {
      */
     public static void reverseAscendingSubarrays(int[] items) {
         for (int i = 0; i < items.length - 1; i++) {
-            if (items[i + 1] <= items[i]) { continue; }
+            if (items[Math.min(i + 1, items.length - 1)] <= items[i]) {
+                continue;
+            }
 
             for (int j = i + 1; j < items.length; j++) {
-                if (items[j + 1] <= items[j]) {
-                    // Create reversed subarray
-                    int[] tmp = Arrays.copyOfRange(items, i, j + 1);
-                    int N = tmp.length;
-                    int[] rev = new int[N];
-                    for (int n = 0; n < N; n++) {
-                        rev[N - 1 - n] = tmp[n];
+                if (items[Math.min(j + 1, items.length - 1)] <= items[j]) {
+                    int N = j - i;  //i=3, j=6, N=3
+
+                    for (int n = 0; n < (N / 2) + 1 ; n++) {
+
+                        int tmp = items[i + n];
+                        items[i + n] = items[j - n];  // does this work for both odd and even N? Yes
+                        items[j - n] = tmp;
                     }
 
-                    // Put sub-array back in its place in items
-                    // >>>>> WORK HERE >>>>>
-
-                    i = j + 1;
+                    i = j;
                     break;
                 }
             }
