@@ -1,6 +1,7 @@
 package com.example.ccps209_lab_1;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,6 +9,19 @@ public class Primes {
     /* Summary: A variety of basic operations to work with prime numbers.
         hrs: 1
      */
+
+    // Use a private instance of ArrayList<Integer> to store already discovered primes, sorted ascending.
+    // This ArrayList is helpful to kthPrime and isPrime.
+    private static ArrayList<Integer> discoveredPrimes = new ArrayList<>();
+
+    // Use a private helper expandPrimes() to append to the ArrayList, as/when needed by isPrime and kthPrime.
+    private static void expandPrimes(int n) {
+        if(discoveredPrimes.size() == 0) { discoveredPrimes.add(n); }
+        if(n > discoveredPrimes.get(discoveredPrimes.size()-1)) {
+            discoveredPrimes.add(n);
+            discoveredPrimes.sort(Comparator.naturalOrder());
+        }
+    }
 
     /**
      * Checks whether the integer n is a prime number.
@@ -26,6 +40,7 @@ public class Primes {
             i++;
         }
 
+        expandPrimes(n);
         return true;
     }
 
@@ -35,21 +50,19 @@ public class Primes {
      * @return The k-th prime number
      */
     public static int kthPrime(int k) {
-        // Be sure to interpret num[0] = 2, num[1] = 3, ... num[k-2] = k
-        // Possible prime numbers are marked true
-        boolean[] num = new boolean[k];
-        Arrays.fill(num, true);
+        int i = 0;
+        int curr = 1;
 
-        // Mark all multiples of p as non-prime (i.e. false)
-        for (int p = 2; p*p <= k; p++) {
-            if(isPrime(p)) {
-                for (int n = p*2; n <= k; n += p) {
-                    num[n] = false;
-                }
-            }
+        // the prime numbers are 2,3,5,7...
+        if (k == 0) { return 2; }
+        if (k == 1) { return 3; }
+
+        while (i < k) {
+            curr += 2;
+            if(isPrime(curr)) { i++; }
         }
 
-        //
+        return curr;
     }
 
     /**
@@ -62,12 +75,10 @@ public class Primes {
         return null;
     }
 
-    // Use a private instance of ArrayList<Integer> to store already discovered primes, sorted ascending.
-    // This ArrayList is helpful to kthPrime and isPrime.
+
 
     // Use Collections.binarySearch() to quickly determine whether an integer is prime by searching the ArrayList.
 
-    // Use a private helper expandPrimes() to append to the ArrayList, as/when needed by isPrime and kthPrime.
 
     public class PrimeGens {
         /* Summary:
