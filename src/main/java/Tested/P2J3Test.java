@@ -1,4 +1,4 @@
-package Working;
+package Tested;
 
 import org.junit.Test;
 
@@ -68,6 +68,7 @@ public class P2J3Test {
             line = fr.readLine();
         }
         fr.close();
+
         assertEquals(3844894811L, check.getValue());
     }
 

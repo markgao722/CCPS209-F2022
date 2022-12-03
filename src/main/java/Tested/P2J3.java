@@ -1,4 +1,4 @@
-package Working;
+package Tested;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -82,7 +82,6 @@ public class P2J3 {
         ArrayList<Integer> vowels = new ArrayList<>();
 
         // Find vowel and capitalization positions
-        capitals.add(0);
         for (int i = 0; i < text.length(); i++) {
             if (vowel.contains(text.substring(i,i+1).toLowerCase())) {
                 vowels.add(i);
