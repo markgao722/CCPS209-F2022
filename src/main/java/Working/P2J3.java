@@ -71,7 +71,6 @@ public class P2J3 {
      * @return The rearranged string
      */
     public static String reverseVowels(String text) {
-        StringBuilder textsb = new StringBuilder(text);
         HashSet<String> vowel = new HashSet<>();
         vowel.add("a");
         vowel.add("e");
@@ -80,32 +79,46 @@ public class P2J3 {
         vowel.add("u");
 
         ArrayList<Integer> capitals = new ArrayList<>();
-        capitals.add(0);
         ArrayList<Integer> vowels = new ArrayList<>();
 
+        // Find vowel and capitalization positions
+        capitals.add(0);
         for (int i = 0; i < text.length(); i++) {
-            if (vowel.contains(textsb.substring(i,i+1).toLowerCase())) {
+            if (vowel.contains(text.substring(i,i+1).toLowerCase())) {
                 vowels.add(i);
             }
-            if (isUpperCase(textsb.charAt(i))) {
+            if (isUpperCase(text.charAt(i))) {
                 capitals.add(i);
             }
         }
 
+        // No action needed if no vowels
         int N = vowels.size();
         if (N == 0 ) { return text; }
-        System.out.println("There are "+N+" vowels");
 
-        for (int n = 0; n < (N / 2); n++) {
-            System.out.println("n= "+n+" N-n="+(N-n-1));
-            Character left = Character.toLowerCase(textsb.charAt(n));
-            Character right = Character.toLowerCase(textsb.charAt(N - n - 1));
-            System.out.println("left: "+left+" right: "+right);
-            System.out.println("replacing "+textsb.substring(n,n+1)+ " with "+textsb.substring(N-n,N-n+1));
-            textsb.replace(n,n+1, right.toString());
-            textsb.replace(N-n,N-n+1, left.toString());
+        // Reverse vowels
+        for (int k = 0; k < N / 2; k++) {
+            int i = vowels.get(k);
+            int j = vowels.get(N-1-k);
+            String ith = Character.toString(Character.toLowerCase(text.charAt(i)));
+            String jth = Character.toString(Character.toLowerCase(text.charAt(j)));
+
+            String left = text.substring(0,i);
+            String mid = text.substring(i+1,j);
+            String right = text.substring(j+1);
+
+            text = left + jth + mid + ith + right;
         }
 
-        return textsb.toString();
+        // Add capitalization
+        for (int i : capitals) {
+            String capped = Character.toString(Character.toUpperCase(text.charAt(i)));
+            String left = text.substring(0, i);
+            String right = text.substring(i + 1);
+
+            text = left + capped + right;
+        }
+
+        return text;
     }
 }
