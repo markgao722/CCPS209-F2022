@@ -18,7 +18,7 @@ public class P2J3Test {
     @Test public void testPancakeScramble() throws IOException {
         // Explicit test cases
         assertEquals("", P2J3.pancakeScramble(""));
-        assertEquals("alu", P2J3.pancakeScramble("lua"));
+        assertEquals("alu", P2J3.pancakeScramble("lua"));  //lua -> ula -> alu
         assertEquals("heya", P2J3.pancakeScramble("yeah"));
         assertEquals("eoeawsm", P2J3.pancakeScramble("awesome"));
         assertEquals("enisrtpocmue cec", P2J3.pancakeScramble("computer science"));

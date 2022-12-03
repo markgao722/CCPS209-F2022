@@ -1,8 +1,13 @@
 package Working;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import static java.lang.Character.isUpperCase;
+
 public class P2J3 {
     /* Summary: Array and integer manipulations to be tested with a text file.
-        hrs: 1
+        hrs: 3
      */
 
     /**
@@ -44,14 +49,17 @@ public class P2J3 {
     public static String pancakeScramble(String text) {
         // Reverse a StringBuilder object as there is no .reverse() on str types
         // Convert back after reversing via str = new StringBuilder(str).reverse().toString();
-        String result = text;
+        StringBuilder textsb = new StringBuilder(text);
 
         for (int i = 2; i <= text.length(); i++) {
-            StringBuilder s = new StringBuilder(i);
+            String sub = textsb.substring(0, i);
+            StringBuilder s = new StringBuilder(sub);
+            s.reverse();
 
+            textsb.replace(0, i, s.toString());
         }
 
-        return result;
+        return textsb.toString();
     }
 
     /**
@@ -59,10 +67,45 @@ public class P2J3 {
      * Only A,E,I,O,U and their lowercase equivalents are vowels.
      * Capitalization should be based off of the ending wording, not the starting.
      * Example: "Uncle Sammy" -> "Ancle Summy
-     * @param text
-     * @return
+     * @param text The string to rearrange
+     * @return The rearranged string
      */
     public static String reverseVowels(String text) {
-        throw new UnsupportedOperationException();
+        StringBuilder textsb = new StringBuilder(text);
+        HashSet<String> vowel = new HashSet<>();
+        vowel.add("a");
+        vowel.add("e");
+        vowel.add("i");
+        vowel.add("o");
+        vowel.add("u");
+
+        ArrayList<Integer> capitals = new ArrayList<>();
+        capitals.add(0);
+        ArrayList<Integer> vowels = new ArrayList<>();
+
+        for (int i = 0; i < text.length(); i++) {
+            if (vowel.contains(textsb.substring(i,i+1).toLowerCase())) {
+                vowels.add(i);
+            }
+            if (isUpperCase(textsb.charAt(i))) {
+                capitals.add(i);
+            }
+        }
+
+        int N = vowels.size();
+        if (N == 0 ) { return text; }
+        System.out.println("There are "+N+" vowels");
+
+        for (int n = 0; n < (N / 2); n++) {
+            System.out.println("n= "+n+" N-n="+(N-n-1));
+            Character left = Character.toLowerCase(textsb.charAt(n));
+            Character right = Character.toLowerCase(textsb.charAt(N - n - 1));
+            System.out.println("left: "+left+" right: "+right);
+            System.out.println("replacing "+textsb.substring(n,n+1)+ " with "+textsb.substring(N-n,N-n+1));
+            textsb.replace(n,n+1, right.toString());
+            textsb.replace(N-n,N-n+1, left.toString());
+        }
+
+        return textsb.toString();
     }
 }
