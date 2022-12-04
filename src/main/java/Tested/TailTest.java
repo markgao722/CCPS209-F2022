@@ -1,4 +1,4 @@
-package Working;
+package Tested;
 
 import org.junit.Test;
 
@@ -32,12 +32,29 @@ public class TailTest {
         assertEquals(1946545910L, check.getValue());
     }
 
+    // CUSTOM TEST ---
+    // THERE IS ONE LINE MISSING IN THE k=63852 CASE
+    // RESOLVED: test consider the last line as valid "" line but current code considers
+    // it null and thus doesn't read that line. Fix it by reading last line as a valid line
+
+    /*
     @Test public void customTest() throws IOException {
-        String t = "Hello \n second line \n third line wow";
-        Tail tail = new Tail(2);
+        int k = 63852;
+        CRC32 check = new CRC32();
+        Tail tail = new Tail(k);
         BufferedReader fr = new BufferedReader(
-                new InputStreamReader(new FileInputStream("textsample.txt"), StandardCharsets.UTF_8)
+                new InputStreamReader(new FileInputStream("warandpeace.txt"), StandardCharsets.UTF_8)
         );
-        tail.processFile(fr);
+        List<String> result = tail.processFile(fr);
+        int totalLines = result.size();
+        fr.close();
+
+        for(String line: result) {
+            try {
+                check.update(line.getBytes("UTF-8"));
+            } catch(UnsupportedEncodingException ignored) {}
+        }
+        assertEquals(k, totalLines);
     }
+    */
 }

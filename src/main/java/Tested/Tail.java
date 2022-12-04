@@ -1,18 +1,18 @@
-package Working;
+package Tested;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Tail extends FileProcessor<List<String>> {
-    /* Summary: Practice file I/O with the BufferedReader class, as well as abstract
+    /* Summary: Practice file I/O with the BufferedReader class, as well as abstract class
         implementation (see Fileprocessor.java)
         hrs: 2
      */
 
     private int linesToReturn;
     private LinkedList<String> lines;
-    private int totalLines;
+    private int totalLines;  // WARNING: "totalLines" in the test file refers to multiple runs of processFile
 
     // Constructor
     public Tail (int n) {
@@ -40,7 +40,7 @@ public class Tail extends FileProcessor<List<String>> {
     // Customer function for debugging
     protected void getLines() {
         for (String l: lines) {
-            System.out.println(l);
+            System.out.println("NEWLINE || "+l);
         }
     }
 
@@ -58,12 +58,13 @@ public class Tail extends FileProcessor<List<String>> {
         if(linesToReturn > totalLines) { linesToReturn = totalLines; }
 
         // pop from the end and reverse the results
-        for (int i = 1; i < linesToReturn; i++) {
+        for (int i = 1; i <= linesToReturn; i++) {
             String p = lines.removeLast();
             popped.add(p);
         }
 
         Collections.reverse(popped);
+
         return popped;
     }
 }
