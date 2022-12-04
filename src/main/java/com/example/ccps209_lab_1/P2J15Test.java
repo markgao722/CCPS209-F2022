@@ -1,4 +1,4 @@
-package FirstDraft;
+package com.example.ccps209_lab_1;
 
 import org.junit.Test;
 import java.util.Random;
