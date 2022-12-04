@@ -1,5 +1,6 @@
-package Working;
+package Tested;
 
+import Working.Polynomial;
 import org.junit.Test;
 import java.util.Random;
 import java.util.zip.CRC32;
