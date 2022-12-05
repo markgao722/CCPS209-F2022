@@ -19,7 +19,7 @@ public class WordCount extends FileProcessor<List<Integer>> {
     protected void startFile() {
         characters = 0;
         words = 0;
-        lines = 0;  // tester has some assumption requiring this =1 instead of 0
+        lines = 0;
     }
 
     /**
