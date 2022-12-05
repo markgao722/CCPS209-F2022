@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class RewindIterator<E> implements Iterator<E> {
     /* Summary: Decorate the Iterator<E> class so that it can be "rewound" to a previously saved position.
-        hrs: 2
+        hrs: 4
      */
 
     private Iterator<E> it;
@@ -39,11 +39,11 @@ public class RewindIterator<E> implements Iterator<E> {
         if(!buffer.isEmpty()) {
             return buffer.removeFirst();
         } else {
-            E nextItem = it.next();
+            E lastItem = it.next();  // WARNING: next() supposed to return NEXT item...?
 
             // If there are outstanding marks, push to emitted as well
-            if(!markPositions.isEmpty()) { emitted.add(nextItem); }
-            return  nextItem;
+            if(!markPositions.isEmpty()) { emitted.add(lastItem); }
+            return lastItem;
         }
     }
 
@@ -58,7 +58,6 @@ public class RewindIterator<E> implements Iterator<E> {
      */
     public void mark() {
         markPositions.add(pos);
-        this.next();  // WARNING: next() returns
     }
 
     /**
@@ -66,15 +65,19 @@ public class RewindIterator<E> implements Iterator<E> {
      * @throws IllegalStateException Throw an exception if rewound with no active marks
      */
     public void rewind() throws IllegalStateException {
-        int rewindTo = markPositions.removeLast();  // idx from which next() will be called
-        int lastEmitted = emitted.size() - 1;  // idx of last item in emitted
+        // Pop last mark
+        int mark = markPositions.removeLast();
 
-        for(int i = 0; i < lastEmitted - rewindTo; i++) {
-            buffer.addFirst(emitted.get(lastEmitted - i));
+        // Transfer n elements from emitted (LIFO) to buffer
+        // Recall next() will prefer to give elements out of buffer (FIFO) versus it.next()
+        int n = pos - mark;  // n = 7 when rewinding 8 units from 58 to 51  WARNING: what if mark=0?
+        for (int i = 0; i < n; i++) {
+            E popped = emitted.removeLast();
+            buffer.addFirst(popped);
         }
 
-        pos = rewindTo;
-        this.next();
+        // Reset position counter
+        pos = mark;
     }
 
     // For testing only

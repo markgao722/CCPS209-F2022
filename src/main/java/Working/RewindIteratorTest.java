@@ -12,7 +12,7 @@ public class RewindIteratorTest {
 
     @Test public void testFirst1000() {
         // Change false to true to see what your iterator generates.
-        massTest(1000, 876040768L);
+        massTest(50, 876040768L);
     }
 
     @Test public void testFirstMillion() {
@@ -38,9 +38,11 @@ public class RewindIteratorTest {
             }
         };
         RewindIterator<Integer> rwi = new RewindIterator<>(ints);
+        rwi.getInfo();
         int marks = 0, count = 0, prev = -1;
         for(int i = 0; i < n; i++) {
             int v = rwi.next();
+            rwi.getInfo();
             if(prev != -1) {
                 // If no rewind took place last round, elements must increase by one.
                 assertEquals(prev + 1, v);
@@ -49,14 +51,20 @@ public class RewindIteratorTest {
             count++;
             check.update(v);
             if(rng.nextInt(100 + i) < 20 || (marks == 0 && count > 10 + i / 10)) {
+                System.out.println("Mark---");
                 rwi.mark();
                 marks++;
                 count = 0;
+                rwi.getInfo();
+                System.out.println("-----");
             }
             if(marks > 0 && rng.nextInt(100 + i) < 30) {
+                System.out.println("Rewind---");
                 rwi.rewind();
                 marks--;
                 prev = -1;
+                rwi.getInfo();
+                System.out.println("-----");
             }
         }
         assertEquals(expected, check.getValue());
@@ -84,10 +92,8 @@ public class RewindIteratorTest {
         rwints.getInfo();
         int s1 = rwints.next();
         rwints.getInfo();
-
-        rwints.mark();
+        int s2 = rwints.next();
         rwints.getInfo();
-
         int s3 = rwints.next();
         rwints.getInfo();
         int s4 = rwints.next();
@@ -95,9 +101,6 @@ public class RewindIteratorTest {
         int s5 = rwints.next();
         rwints.getInfo();
         int s6 = rwints.next();
-        rwints.getInfo();
-
-        rwints.rewind();
         rwints.getInfo();
     }
 }
