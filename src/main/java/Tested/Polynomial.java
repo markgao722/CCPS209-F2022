@@ -1,10 +1,11 @@
-package Working;
+package Tested;
 
 import java.util.Arrays;
+import java.util.Objects;
 
-public class Polynomial {
+public class Polynomial implements Comparable<Polynomial> {
     /* Summary:
-        hrs: 2
+        hrs: 3
      */
 
     // A polynomial 5X^3 - 7X + 42
@@ -121,5 +122,36 @@ public class Polynomial {
 
         Polynomial result = new Polynomial(products);
         return result;
+    }
+
+    // Lab 3: equals, hashCode, compareTo
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Polynomial that = (Polynomial) o;
+        return deg == that.deg && Arrays.equals(coeff, that.coeff);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(deg);
+        result = 31 * result + Arrays.hashCode(coeff);
+        return result;
+    }
+
+    public int compareTo(Polynomial other) {
+        if(this.deg > other.deg) { return 1; }
+        else if (this.deg < other.deg) { return -1; }
+        else {
+            // next highest degree term wins based on coefficient
+            for(int n = this.deg; n >= 0; n--) {
+                if(this.coeff[n] > other.coeff[n]) { return 1; }
+                else if(this.coeff[n] < other.coeff[n]) { return -1; }
+            }
+            return 0;
+        }
     }
 }

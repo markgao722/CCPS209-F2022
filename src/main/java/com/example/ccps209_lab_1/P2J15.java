@@ -98,21 +98,42 @@ public class P2J15 {
      */
     public static int countSubarraysWithSum(int[] a, int sum) {
         int results = 0;
-        int i;
-        int j;
+        int i = 0;
+        int j = 0;
+        int lastS = a[i];
 
-        for(i=0; i < a.length; i++) {
-            for (j=i; j < a.length; j++) {  // Not the most efficient start point for j but oh well
-                int[] slice = Arrays.copyOfRange(a, i, j+1);
-                int s = Arrays.stream(slice).sum();
-                System.out.println(s);
-                if (s == sum) { results++; }
+        while (j < a.length) {
+            // Remember a is unsorted, so it's possible to overshoot sum and still find lesser sums later
+            if(lastS < sum) {
+                // advance j
+                j++;
+                if(j > a.length -1) { break; }
+
+                lastS += a[j];
+            if(lastS > sum) {
+                lastS -= a[i];
+                i++;
+                if(i > a.length -1) { break; }
+
+                lastS += a[j];
+            }
+            } else {  // match found (could be singleton or >1 sub-array)
+                lastS -= a[i];
+                i++;
+                if(i > a.length -1) { break; }
+
+                lastS += a[i];
+
+                j++;
+                if(j > a.length -1) { break; }
+                lastS += a[j];
+
+                results++;
             }
         }
 
-        // check the sub-array's sum
-        // int[] slice = Arrays.copyOfRange(a, i, j);
-        // sum_to_here = Arrays.stream(slice).sum();
+        // Test 10k taking 1 minutes 2 second
+        // Test 30k taking ?? minutes
 
         return results;
     }

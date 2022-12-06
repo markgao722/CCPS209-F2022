@@ -1,4 +1,4 @@
-package Working;
+package Tested;
 
 import org.junit.Test;
 import java.util.Random;
