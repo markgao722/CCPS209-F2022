@@ -6,7 +6,7 @@ public class Manhattan {
     /* Summary: A demonstration of an implementation of the "sweep line algorithm". Assume we're looking at a skyline
         at night such that the silhouette of the buildings look like 2D rectangles, which may overlap because the
         buildings are close together. Do not double count the silhouette area in this case.
-        hrs: 0
+        hrs: 1
      */
 
     /**
