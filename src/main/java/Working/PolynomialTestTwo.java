@@ -70,8 +70,8 @@ public class PolynomialTestTwo {
     }
 
     @Test public void testMultiply() {
-        int[] c1 = {7, -5, 3}; // 3x^2 - 5x + 7
-        int[] c2 = {6, 0, 0, -4}; // -4x^3 + 6
+        int[] c1 = {7, -5, 3};
+        int[] c2 = {6, 0, 0, -4};
         Polynomial p1 = new Polynomial(c1);
         Polynomial p2 = new Polynomial(c2);
         // Product of two polynomials must be equal both ways.

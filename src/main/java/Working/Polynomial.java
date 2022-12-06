@@ -4,23 +4,24 @@ import java.util.Arrays;
 
 public class Polynomial {
     /* Summary:
-        hrs: 1
+        hrs: 2
      */
+
+    // A polynomial 5X^3 - 7X + 42
+    // Will have array [42,-7,0,5]
     private final int[] coeff;
     private int deg = 0;
 
     // Lab 1: constructor, getDegree, getCoefficient, evaluate
     public Polynomial(int[] coefficients) {
-        // A polynomial 5X^3 - 7X + 42
-        // Will have array [42,-7,0,5]
-        coeff = Arrays.copyOf(coefficients, coefficients.length);
-
-        for (int i = coefficients.length - 1; i >= 0; i--) {
-            if (coefficients[i] != 0) {
-                deg = i;
-                break;
-            }
+        // Remove redundant zeros from the right (and increment degree)
+        // NOTE: {0} is valid and represents zero
+        int copyTo = coefficients.length - 1;
+        while(coefficients[copyTo] == 0 && copyTo > 0) {
+            copyTo--;
         }
+        coeff = Arrays.copyOf(coefficients, copyTo + 1);
+        deg = coeff.length - 1;
     }
 
     @Override
@@ -55,42 +56,70 @@ public class Polynomial {
 
     // Lab 2: add, multiply
     public Polynomial add(Polynomial other) {
+        // Determine whether this or other is the higher degree
         int lowerDeg = Math.min(this.deg, other.deg);
         int higherDeg = Math.max(this.deg, other.deg);
         boolean thisIsHigher = true;
-        if(this.deg < other.deg) { thisIsHigher = false; }
-        System.out.println("High d:"+higherDeg+" lower d:"+lowerDeg);
+        boolean thisIsEqual = false;
 
-        // Ensure two coefficient arrays equal size
-        int[] newcoeffs = new int[higherDeg + 1];
-        for(int i = 0; i < higherDeg + 1; i++) {
-            if(thisIsHigher) {
-                newcoeffs[i] = other.getCoefficient(i);  // newcoeffs represents other
-            } else {
-                newcoeffs[i] = this.getCoefficient(i);  // newcoeffs represents this
-            }
-        }
-        //TEST
-        Polynomial N = new Polynomial(newcoeffs);
-        System.out.println("New polynomial: " +N);
-
-        // Loop over arrays and add
-        int[] sums = new int[higherDeg];
-        for(int i = 0; i < higherDeg; i++) {
-            if(thisIsHigher) {
-                sums[i] = this.getCoefficient(i) + newcoeffs[i];
-            } else {
-                sums[i] = newcoeffs[i] + other.getCoefficient(i);
-            }
+        if(this.deg < other.deg) {
+            thisIsHigher = false;
+        } else if( this.deg == other.deg) {
+            thisIsEqual = true;
         }
 
-        // Check for new leading degree-zeros before creating the result polynomial
+        // If degrees unequal, add zeros to shorter polynomial. Skip if degree equal
+        int[] thisCoeff = new int[higherDeg + 1];
+        int[] otherCoeff = new int[higherDeg + 1];
+        if(!thisIsEqual && thisIsHigher) {
+            thisCoeff = this.coeff;
+            for(int i = 0; i <= higherDeg; i++) {
+                if(i <= lowerDeg) { otherCoeff[i] = other.coeff[i]; }
+                else { otherCoeff[i] = 0; }
+            }
+        } else if (!thisIsEqual && !thisIsHigher) {
+            otherCoeff = other.coeff;
+            for(int i = 0; i <= higherDeg; i++) {
+                if(i <= lowerDeg) { thisCoeff[i] = this.coeff[i]; }
+                else { thisCoeff[i] = 0; }
+            }
+        } else {
+            thisCoeff = this.coeff;
+            otherCoeff = other.coeff;
+        }
+
+        // Add coefficients and generate answer.
+        int[] sums = new int[higherDeg + 1];
+
+        for(int i = 0; i <= higherDeg; i++) {
+            sums[i] = thisCoeff[i] + otherCoeff[i];
+        }
+
         Polynomial result = new Polynomial(sums);
-        System.out.println("Result polynomial: " +result);
         return result;
     }
 
     public Polynomial multiply(Polynomial other) {
-        throw new UnsupportedOperationException();
+        // The result array should fit the product of the highest degree terms in this and other
+        int[] products = new int[this.getDegree() + other.getDegree() + 1];
+
+        // Loop through all possible products. Skip any a*0 or b*0 operations
+        // Note: if thisCoeff degree 3 (4 elements) x otherCoeff degree 3 (4 elements), there are 4^4 steps
+
+        for(int i = 0; i < this.coeff.length; i++) {
+            // Use i to remember what degree a is
+
+            for(int j = 0; j < other.coeff.length; j++) {
+                // Use j to remember what degree b is
+                int product = this.coeff[i] * other.coeff[j];
+                int productDeg = i + j;
+                if(product == 0) { continue; }
+
+                products[productDeg] += product;
+            }
+        }
+
+        Polynomial result = new Polynomial(products);
+        return result;
     }
 }
