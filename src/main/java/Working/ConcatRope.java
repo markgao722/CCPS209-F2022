@@ -1,5 +1,7 @@
 package Working;
 
+import java.util.Objects;
+
 public class ConcatRope extends Rope {
     /*
         Part 2 of 3 of Rope I lab
@@ -32,4 +34,20 @@ public class ConcatRope extends Rope {
     public String toString() {
         return left.toString() + right.toString();
     }
+
+    // Lab 2
+    // Note: abstract class made to implement Comparable<Rope> as part of lab 2
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ConcatRope that = (ConcatRope) o;
+        return left.equals(that.left) && right.equals(that.right);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(left, right);
+    }
+
 }

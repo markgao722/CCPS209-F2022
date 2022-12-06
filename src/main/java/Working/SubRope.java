@@ -1,5 +1,7 @@
 package Working;
 
+import java.util.Objects;
+
 public class SubRope extends Rope{
     /*
         Part 3 of 3 of Rope I lab
@@ -35,4 +37,20 @@ public class SubRope extends Rope{
         }
         return result.toString();
     }
+
+    // Lab 2
+    // Note: abstract class made to implement Comparable<Rope> as part of lab 2
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SubRope subRope = (SubRope) o;
+        return start == subRope.start && end == subRope.end && original.equals(subRope.original);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(original, start, end);
+    }
+
 }
