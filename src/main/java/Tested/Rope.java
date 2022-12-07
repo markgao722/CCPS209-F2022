@@ -1,6 +1,6 @@
-package Working;
+package Tested;
 
-abstract public class Rope implements Comparable<Rope> {
+abstract public class Rope {  // implement Comparable as part of Lab 2
     abstract public char charAt(int index);
     private int len = -1;
 
@@ -23,6 +23,7 @@ abstract public class Rope implements Comparable<Rope> {
      */
 
     // Lab 2
+    /*
     private int hash = -1;
 
     @Override
@@ -39,4 +40,5 @@ abstract public class Rope implements Comparable<Rope> {
         else if(this.length() < o.length()) { return 1; }
         else { return -1; }
     }
+    */
 }

@@ -34,7 +34,7 @@ public class DiamondSequenceTest {
     public void testSelfReferentiality() {
         Map<Integer, Integer> mustBe = new HashMap<>();
         Iterator<Integer> it = new DiamondSequence();
-        for(int k = 1; k < 1_000_000; k++) {
+        for(int k = 1; k < 1_000_000; k++) {  // 8 min
             int v = it.next();
             if(mustBe.containsKey(k)) {
                 // Cast to long is necessary to disambiguate between assertEquals overloadings.

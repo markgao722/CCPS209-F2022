@@ -32,23 +32,25 @@ public class DiamondSequence implements Iterator<Integer> {
      */
     public Integer next() {
         // Check for smallest unseen integer I, if it satisfies sum+I % k == 0 use it, if not, keep looking
-        long smallestInt;
+        long smallestInt;  // why does seen ints have to be long...?
         this.k++;
 
-        // Check for self-reference, otherwise search through all integers starting from lowest
+        // Check for self-reference to save time: if a(k) = x, then a(x) = k, where k < x
+        // Useless for a(k) but when a(x) is reached, should do a check
         if(this.seen.contains(k)) {
             smallestInt = this.positions.get(k);
         } else {
             smallestInt = this.seen.allTrueUpTo(); // Note: method allTrueUpTo gives idx of next FALSE position
 
-            while((this.sum + smallestInt) % this.k != 0) {  // 1M k = 8 minutes
-                smallestInt += 1L;
+            while((this.sum + smallestInt) % this.k != 0) {
+                smallestInt += 1;
+                if(seen.contains(smallestInt)) { smallestInt++; }
             }
         }
 
         this.sum += smallestInt;
         this.seen.add(smallestInt);
-        System.out.println("k: " + this.k + " value: " + smallestInt);
+        //System.out.println("k: " + this.k + " value: " + smallestInt);
 
         positions.put(toIntExact(smallestInt), k);
         return toIntExact(smallestInt);

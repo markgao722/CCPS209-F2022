@@ -36,6 +36,7 @@ public class RewindIterator<E> implements Iterator<E> {
     public E next() {
         pos++;
 
+
         if(!buffer.isEmpty()) {
             return buffer.removeFirst();
         } else {
@@ -78,6 +79,8 @@ public class RewindIterator<E> implements Iterator<E> {
 
         // Reset position counter
         pos = mark;
+
+        buffer.removeFirst();
     }
 
     // For testing only

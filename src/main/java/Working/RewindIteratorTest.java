@@ -45,6 +45,7 @@ public class RewindIteratorTest {
             rwi.getInfo();
             if(prev != -1) {
                 // If no rewind took place last round, elements must increase by one.
+                System.out.println("Prev+1 ="+(prev+1)+", v ="+v);
                 assertEquals(prev + 1, v);
             }
             prev = v;
@@ -84,23 +85,69 @@ public class RewindIteratorTest {
             }
 
             public Integer next() {
-                return v++;
+                return ++v;
             }
         };
         // New rewindable iterator
         RewindIterator<Integer> rwints = new RewindIterator<>(ints);
         rwints.getInfo();
+
         int s1 = rwints.next();
         rwints.getInfo();
+
+        rwints.mark();
+        rwints.getInfo();
+
         int s2 = rwints.next();
         rwints.getInfo();
+
+        rwints.mark();
+        rwints.getInfo();
+
         int s3 = rwints.next();
         rwints.getInfo();
+
+        rwints.rewind();
+        rwints.getInfo();
+
         int s4 = rwints.next();
         rwints.getInfo();
-        int s5 = rwints.next();
-        rwints.getInfo();
-        int s6 = rwints.next();
-        rwints.getInfo();
+
     }
 }
+
+
+/*
+        int s1 = rwints.next();
+        rwints.getInfo();
+
+        rwints.mark();
+        rwints.getInfo();
+
+        int s2 = rwints.next();
+        rwints.getInfo();
+
+        rwints.mark();
+        rwints.getInfo();
+
+        int s3 = rwints.next();
+        rwints.getInfo();
+
+        rwints.rewind();
+        rwints.getInfo();
+
+        int s20 = rwints.next();
+        rwints.getInfo();
+
+        int s30 = rwints.next();
+        rwints.getInfo();
+
+        rwints.rewind();
+        rwints.getInfo();
+
+        int s21 = rwints.next();
+        rwints.getInfo();
+
+        int s31 = rwints.next();
+        rwints.getInfo();
+ */
